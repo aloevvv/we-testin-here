@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Five Nights At Place</title>
+  <title>FIve Nights</title>
   <style>
     body {
+      margin: 0;
       background-color: black;
-      color: white;
       font-family: 'Courier New', monospace;
+      color: white;
       text-align: center;
-      margin-top: 20%;
     }
 
-    h1 {
-      margin-bottom: 40px;
+    #menu {
+      margin-top: 20%;
     }
 
     .menu-option {
@@ -26,29 +26,53 @@
       color: gray;
       cursor: not-allowed;
     }
+
+    #game {
+      display: none;
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #office {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #cameraBtn {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <h1>Five Night's At Place</h1>
+  <!-- Menu -->
   <div id="menu">
+    <h1>Loading...</h1>
     <div class="menu-option" onclick="startNewGame()">New Game</div>
     <div id="continueBtn" class="menu-option disabled">Continue</div>
   </div>
 
+  <div id="game">
+    <img id="office" src="office.png" alt="Office">
+    <img id="cameraBtn" src="camera.png" alt="Camera Button">
+  </div>
+
   <script>
     function startNewGame() {
-      document.querySelector("h1").textContent = "Starting New Game...";
-      // Later: add logic to begin Night 1
-      unlockContinue();
-    }
-
-    function unlockContinue() {
-      const continueBtn = document.getElementById("continueBtn");
-      continueBtn.classList.remove("disabled");
-      continueBtn.onclick = () => {
-        document.querySelector("h1").textContent = "Continuing Game...";
-        // Later: load saved progress
-      };
+      // Hide menu
+      document.getElementById("menu").style.display = "none";
+      // Show game
+      document.getElementById("game").style.display = "block";
     }
   </script>
 </body>
