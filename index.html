@@ -203,7 +203,6 @@ function toggleCamera() {
   }
 }
 
-document.getElementById("cameraBtn").addEventListener("click", toggleCamera);
 // ====== CAMERA KEYBINDS ======
 document.addEventListener("keydown", e => {
   if (!CamOn) return;
@@ -388,6 +387,7 @@ function killPlayer(enemy) {
   setTimeout(()=>{ location.reload(); }, 3000);
 }
     document.getElementById("newGameBtn").addEventListener("click", startNewGame);
+    document.getElementById("cameraBtn").addEventListener("click", toggleCamera);
 
 
   </script>
