@@ -98,34 +98,173 @@
   <audio id="ambience" src="ambience.mp3" loop></audio>
 
   <script>
-    let CamOn = false; // camera state
+// ====== GAME STATE ======
+let CamOn = false;
+let currentCam = "CAM1";
+let paranoiaTimer = null;
+let paranoid = false;
 
-    function startNewGame() {
-      document.getElementById("menu").style.display = "none";
-      document.getElementById("game").style.display = "block";
+// Enemy positions
+let Punch = "CAM1";
+let Snipe = "CAM1";
+let Mouse = "CAM1";
 
-      const ambience = document.getElementById("ambience");
-      ambience.volume = 0.1;
-      ambience.play();
-    }
+// AI levels (0–20)
+let PunchAI = 5;   // Night 1 example
+let SnipeAI = 5;
+let MouseAI = 5;
 
-    function toggleCamera() {
-      CamOn = !CamOn; // flip state
+// Valid paths
+const PunchPath = ["CAM1","CAM5","CAM4","CAM9A"];
+const SnipePath = ["CAM1","CAM2","CAM3","CAM8","CAM6","CAM9B"];
+const MousePath = ["CAM1","CAM1B","CAM2","CAM3","CAM8","CAM6","CAM9B"];
 
-      if (CamOn) {
-        // Show camera view
-        document.getElementById("office").style.display = "none";
-        document.getElementById("camView").style.display = "block";
-        document.getElementById("map").style.display = "block";
-        document.getElementById("staticOverlay").style.display = "block";
-      } else {
-        // Return to office
-        document.getElementById("office").style.display = "block";
-        document.getElementById("camView").style.display = "none";
-        document.getElementById("map").style.display = "none";
-        document.getElementById("staticOverlay").style.display = "none";
-      }
-    }
+// ====== GAME START ======
+function startNewGame() {
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("game").style.display = "block";
+  const ambience = document.getElementById("ambience");
+  ambience.volume = 0.1;
+  ambience.play();
+  startAI();
+}
+
+// ====== CAMERA TOGGLE ======
+function toggleCamera() {
+  CamOn = !CamOn;
+  if (CamOn) {
+    document.getElementById("office").style.display = "none";
+    document.getElementById("camView").style.display = "block";
+    document.getElementById("map").style.display = "block";
+    document.getElementById("staticOverlay").style.display = "block";
+    resetParanoia();
+    updateCameraView();
+  } else {
+    document.getElementById("office").style.display = "block";
+    document.getElementById("camView").style.display = "none";
+    document.getElementById("map").style.display = "none";
+    document.getElementById("staticOverlay").style.display = "none";
+    clearTimeout(paranoiaTimer);
+  }
+}
+
+// ====== CAMERA KEYBINDS ======
+document.addEventListener("keydown", e => {
+  if (!CamOn) return;
+  switch(e.key) {
+    case "1": currentCam="CAM1"; break;
+    case "2": currentCam="CAM2"; break;
+    case "3": currentCam="CAM3"; break;
+    case "4": currentCam="CAM4"; break;
+    case "5": currentCam="CAM5"; break;
+    case "6": currentCam="CAM6"; break;
+    case "7": currentCam="CAM7"; break;
+    case "8": currentCam="CAM8"; break;
+    case "9": currentCam="CAM9A"; break;
+    case "0": currentCam="CAM9B"; break;
+  }
+  updateCameraView();
+  resetParanoia();
+});
+
+// ====== CAMERA IMAGE LOGIC ======
+function getActualImage(cam) {
+  let enemiesHere = [];
+  if (Punch === cam) enemiesHere.push("P");
+  if (Snipe === cam) enemiesHere.push("S");
+  if (Mouse === cam) enemiesHere.push("M");
+  return enemiesHere.length > 0 ? cam + enemiesHere.join("") + ".png" : cam + ".png";
+}
+
+function getHallucinationImages(cam) {
+  let options = [cam + ".png"];
+  if (MousePath.includes(cam)) options.push(cam + "M.png");
+  if (SnipePath.includes(cam)) options.push(cam + "S.png");
+  if (PunchPath.includes(cam)) options.push(cam + "P.png");
+  if (MousePath.includes(cam) && SnipePath.includes(cam)) options.push(cam + "MS.png");
+  if (PunchPath.includes(cam) && SnipePath.includes(cam)) options.push(cam + "PS.png");
+  if (PunchPath.includes(cam) && MousePath.includes(cam)) options.push(cam + "PM.png");
+  if (PunchPath.includes(cam) && MousePath.includes(cam) && SnipePath.includes(cam)) options.push(cam + "PMS.png");
+  return options;
+}
+
+function updateCameraView() {
+  const camView = document.getElementById("camView");
+  if (paranoid && Math.random() < 0.5) {
+    let hallucinations = getHallucinationImages(currentCam);
+    camView.src = hallucinations[Math.floor(Math.random() * hallucinations.length)];
+  } else {
+    camView.src = getActualImage(currentCam);
+  }
+}
+
+// ====== AI LOOP ======
+function startAI() {
+  setInterval(movePunch, 5000);  // Punch every 5s
+  setInterval(moveSnipe, 5000); // Snipe every 5s
+  setInterval(moveMouse, 2500); // Mouse every 2.5s
+}
+
+function playFootsteps() {
+  document.getElementById("footsteps").play();
+}
+
+// Punch AI
+function movePunch() {
+  let roll = Math.floor(Math.random() * 20) + 1;
+  if (roll <= PunchAI) {
+    if (Punch==="CAM1") { Punch="CAM5"; }
+    else if (Punch==="CAM5") { Punch=Math.random()<0.5?"CAM4":"CAM9A"; }
+    else if (Punch==="CAM4") { Punch="CAM5"; }
+    else if (Punch==="CAM9A") { Punch=Math.random()<0.75?"DOOR":"CAM5"; }
+    playFootsteps();
+    updateCameraView();
+  }
+}
+
+// Snipe AI
+function moveSnipe() {
+  let roll = Math.floor(Math.random() * 20) + 1;
+  if (roll <= SnipeAI) {
+    if (Snipe==="CAM1") Snipe="CAM2";
+    else if (Snipe==="CAM2") Snipe="CAM3";
+    else if (Snipe==="CAM3") Snipe=Math.random()<0.75?"CAM8":"CAM2";
+    else if (Snipe==="CAM8") Snipe="CAM6";
+    else if (Snipe==="CAM6") Snipe=Math.random()<0.75?"CAM9B":"CAM8";
+    else if (Snipe==="CAM9B") Snipe="DOOR";
+    playFootsteps();
+    updateCameraView();
+  }
+}
+
+// Mouse AI
+function moveMouse() {
+  let roll = Math.floor(Math.random() * 20) + 1;
+  if (roll <= MouseAI) {
+    if (Mouse==="CAM1") Mouse=Math.random()<0.6?"CAM1B":"CAM2";
+    else if (Mouse==="CAM1B") Mouse=Math.random()<0.9?"CAM1B":"CAM1";
+    else if (Mouse==="CAM2") Mouse="CAM3";
+    else if (Mouse==="CAM3") Mouse="CAM8";
+    else if (Mouse==="CAM8") Mouse="CAM6";
+    else if (Mouse==="CAM6") Mouse="CAM9B";
+    else if (Mouse==="CAM9B") Mouse="DOOR";
+    updateCameraView();
+  }
+}
+
+// ====== PARANOIA ======
+function resetParanoia() {
+  clearTimeout(paranoiaTimer);
+  let threshold = (Mouse==="CAM1B")?7000:15000;
+  paranoiaTimer = setTimeout(()=>{ paranoid=true; }, threshold);
+}
+
+function hallucinate() {
+  if (!CamOn) return;
+  updateCameraView();
+  setTimeout(()=>{ paranoid=false; }, 120000);
+}
+
   </script>
 </body>
 </html>
