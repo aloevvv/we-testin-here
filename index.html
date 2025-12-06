@@ -203,24 +203,47 @@ function toggleCamera() {
   }
 }
 
-// ====== CAMERA KEYBINDS ======
-document.addEventListener("keydown", e => {
-  if (!CamOn) return;
-  switch(e.key) {
-    case "1": currentCam="CAM1"; break;
-    case "2": currentCam="CAM2"; break;
-    case "3": currentCam="CAM3"; break;
-    case "4": currentCam="CAM4"; break;
-    case "5": currentCam="CAM5"; break;
-    case "6": currentCam="CAM6"; break;
-    case "7": currentCam="CAM7"; break;
-    case "8": currentCam="CAM8"; break;
-    case "9": currentCam="CAM9A"; break;
-    case "0": currentCam="CAM9B"; break;
-  }
-  updateCameraView();
-  resetParanoia();
+window.addEventListener("DOMContentLoaded", () => {
+  // Attach camera button click
+  document.getElementById("cameraBtn").addEventListener("click", toggleCamera);
+
+  // Attach New Game button click
+  document.getElementById("newGameBtn").addEventListener("click", startNewGame);
+
+  // Camera keybinds
+  document.addEventListener("keydown", e => {
+    if (!CamOn) return;
+    switch(e.key) {
+      case "1": currentCam="CAM1"; break;
+      case "2": currentCam="CAM2"; break;
+      case "3": currentCam="CAM3"; break;
+      case "4": currentCam="CAM4"; break;
+      case "5": currentCam="CAM5"; break;
+      case "6": currentCam="CAM6"; break;
+      case "7": currentCam="CAM7"; break;
+      case "8": currentCam="CAM8"; break;
+      case "9": currentCam="CAM9A"; break;
+      case "0": currentCam="CAM9B"; break;
+    }
+    updateCameraView();
+    resetParanoia();
+  });
+
+  // Door controls
+  document.addEventListener("keydown", e => {
+    if (e.key === "a" || e.key === "A") {
+      doorAClosed = !doorAClosed;
+      document.getElementById("doorA").src = doorAClosed ? "doorAon.png" : "doorAoff.png";
+      if (doorAClosed) resetDoor("A");
+    }
+    if (e.key === "d" || e.key === "D") {
+      doorBClosed = !doorBClosed;
+      document.getElementById("doorB").src = doorBClosed ? "doorBon.png" : "doorBoff.png";
+      if (doorBClosed) resetDoor("B");
+    }
+  });
 });
+
 
 // ====== CAMERA IMAGE LOGIC ======
 function getActualImage(cam) {
@@ -310,19 +333,6 @@ function moveMouse() {
   }
 }
 
-// ====== DOOR & INFECTION LOGIC ======
-document.addEventListener("keydown", e => {
-  if (e.key === "a" || e.key === "A") {
-    doorAClosed = !doorAClosed;
-    document.getElementById("doorA").src = doorAClosed ? "doorAon.png" : "doorAoff.png";
-    if (doorAClosed) resetDoor("A");
-  }
-  if (e.key === "d" || e.key === "D") {
-    doorBClosed = !doorBClosed;
-    document.getElementById("doorB").src = doorBClosed ? "doorBon.png" : "doorBoff.png";
-    if (doorBClosed) resetDoor("B");
-  }
-});
 
 function startInfectionMeter() {
   infectionInterval = setInterval(() => {
@@ -386,9 +396,7 @@ function killPlayer(enemy) {
   // End game (simple example: reload page)
   setTimeout(()=>{ location.reload(); }, 3000);
 }
-    document.getElementById("newGameBtn").addEventListener("click", startNewGame);
-    document.getElementById("cameraBtn").addEventListener("click", toggleCamera);
-
+  
 
   </script>
 </body>
