@@ -227,15 +227,19 @@ function startNewGame() {
   startNight();
 }
     function advanceHour() {
-  if (currentHour < 6) {
+  if (currentHour === 12) {
+    currentHour = 1;
+  } else {
     currentHour++;
-    updateHourLabel();
   }
+
+  updateHourLabel();
 
   if (currentHour === 6) {
     endNight();
   }
 }
+
 
     function startNight() {
   currentHour = 12;
