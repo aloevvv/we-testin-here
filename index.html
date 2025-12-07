@@ -284,9 +284,15 @@ function startNewGame() {
 
 
 function updateHourLabel() {
-  let label = currentHour === 12 ? "12AM" : currentHour + "AM";
+  let label;
+  if (currentHour === 12) {
+    label = "12AM";
+  } else {
+    label = currentHour + "AM";
+  }
   document.getElementById("hourLabel").textContent = label;
 }
+
 
 
 
