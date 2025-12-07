@@ -279,6 +279,7 @@ function startNewGame() {
   startAI();
   startInfectionMeter();
   startNight();
+  bossTimer = setInterval(updateBoss, 5000);
 }
     function advanceHour() {
   if (currentHour === 12) {
@@ -648,8 +649,6 @@ function moveMouse() {
 
   updateBossCam();
 }
-
-bossTimer = setInterval(updateBoss, 5000);
 
 
 function updateBossCam() {
