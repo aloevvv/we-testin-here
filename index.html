@@ -504,8 +504,23 @@ function getActualImage(cam) {
   if (Punch === cam) enemiesHere.push("P");
   if (Snipe === cam) enemiesHere.push("S");
   if (Mouse === cam) enemiesHere.push("M");
+
+  if (cam === "CAM7") {
+    return getBossImage();
+  }
+
   return enemiesHere.length > 0 ? cam + enemiesHere.join("") + ".png" : cam + ".png";
 }
+    function getBossImage() {
+  if (BossStage === 1) return "CAM7stage1.png";
+  if (BossStage === 2) return "CAM7stage2.png";
+  if (BossStage === 3) return "CAM7stage3.png";
+  if (BossStage === 4) return "CAM7stage4.png";
+  if (BossStage === "Maddened") return "CAM7stageangry.png";
+  if (BossStage === 5) return "CAM7stage5.png";
+  return "CAM7stage1.png"; // fallback
+}
+
 
 function getHallucinationImages(cam) {
   let options = [cam + ".png"];
