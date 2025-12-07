@@ -407,7 +407,7 @@ function moveSnipe() {
 function moveMouse() {
   let roll = Math.floor(Math.random() * 20) + 1;
   if (roll <= MouseAI) {
-    if (Mouse==="CAM1") Mouse=Math.random()<0.6?"CAM1B":"CAM2";
+    if (Mouse==="CAM1") Mouse=Math.random()<0.8?"CAM1B":"CAM2";
     else if (Mouse==="CAM1B") Mouse=Math.random()<0.9?"CAM1B":"CAM1";
     else if (Mouse==="CAM2") Mouse="CAM3";
     else if (Mouse==="CAM3") Mouse="CAM8";
