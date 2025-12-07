@@ -533,6 +533,7 @@ function movePunch() {
     playFootsteps();
     updateCameraView();
     checkDoorStates();
+    updateDoorSprites();
   }
 }
 
@@ -549,6 +550,7 @@ function moveSnipe() {
     playFootsteps();
     updateCameraView();
     checkDoorStates();
+    updateDoorSprites();
   }
 }
 
@@ -565,9 +567,26 @@ function moveMouse() {
     else if (Mouse==="CAM9B") Mouse="doorB";
     updateCameraView();
     checkDoorStates();
+    updateDoorSprites();
+
   }
 }
 
+function updateDoorSprites() {
+  // Door A (Punch)
+  if (Punch === "doorA" && !doorAClosed) {
+    document.getElementById("doorA").src = "doorApunch.png";
+  } else {
+    document.getElementById("doorA").src = doorAClosed ? "doorAon.png" : "doorAoff.png";
+  }
+
+  // Door B (Snipe)
+  if (Snipe === "doorB" && !doorBClosed) {
+    document.getElementById("doorB").src = "doorBsnipe.png";
+  } else {
+    document.getElementById("doorB").src = doorBClosed ? "doorBon.png" : "doorBoff.png";
+  }
+}
 
 function startInfectionMeter() {
   infectionInterval = setInterval(() => {
@@ -622,6 +641,7 @@ function resetDoor(which) {
     }
   }
   updateCameraView();
+  updateDoorSprites();
 }
 
     function startParanoiaTimer(which) {
