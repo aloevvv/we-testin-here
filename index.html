@@ -454,12 +454,12 @@ function clearParanoiaTimer(which) {
 }
 
 function checkDisable(which) {
-  if (which === "A" && doorATotalClosed >= 120) {
+  if (which === "A" && doorATotalClosed >= 5) {
     doorAClosed = false;
     document.getElementById("doorA").src = "doorAoff.png";
     console.log("Door A permanently disabled after 120s cumulative closed time");
   }
-  if (which === "B" && doorBTotalClosed >= 120) {
+  if (which === "B" && doorBTotalClosed >= 5) {
     doorBClosed = false;
     document.getElementById("doorB").src = "doorBoff.png";
     console.log("Door B permanently disabled after 120s cumulative closed time");
