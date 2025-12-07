@@ -560,6 +560,7 @@ function updateCameraView() {
 
   // Update CAM label
   document.getElementById("camLabel").textContent = currentCam;
+  updateRocketView();
 }
 
 
@@ -677,7 +678,8 @@ function spawnRocket() {
   rocket.style.top = "40%";  
   rocket.style.left = "50%"; 
   rocket.src = "rocket.png";
-  rocket.style.zIndex = 21;  
+  rocket.style.zIndex = 21;
+  updateRocketView();
 
   console.log("Rocket spawned in", rocketCam);
 
@@ -691,6 +693,16 @@ function spawnRocket() {
   }, 8000);
 }
 
+    function updateRocketView() {
+  const rocket = document.getElementById("rocket");
+  if (rocketActive && CamOn && currentCam === rocketCam) {
+    rocket.style.display = "block";
+  } else {
+    rocket.style.display = "none";
+  }
+}
+
+
 
 function clickRocket(cam) {
   if (rocketActive && cam === rocketCam) {
@@ -700,6 +712,7 @@ function clickRocket(cam) {
     BossStage = 2;
     BossProgress = 0;
     console.log("Rocket defused, Boss reset to Stage 2");
+    updateRocketView();
   }
 }
 
