@@ -331,15 +331,19 @@ function setAIForHour(night, hour) {
   if (currentNight === 1) {
     Night1Won = true;
     localStorage.setItem("Night1Won", "true");
+    currentNight = 2;
   } else if (currentNight === 2) {
     Night2Won = true;
     localStorage.setItem("Night2Won", "true");
+    currentNight = 3;
   } else if (currentNight === 3) {
     Night3Won = true;
     localStorage.setItem("Night3Won", "true");
+    currentNight = 4;
   } else if (currentNight === 4) {
     Night4Won = true;
     localStorage.setItem("Night4Won", "true");
+    currentNight = 5;
   } else if (currentNight === 5) {
     Night5Won = true;
     localStorage.setItem("Night5Won", "true");
@@ -347,9 +351,8 @@ function setAIForHour(night, hour) {
     return;
   }
 
-  currentNight++;
   localStorage.setItem("currentNight", currentNight);
-      startNight();
+  startNight();
 }
 
 
