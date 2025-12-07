@@ -531,6 +531,14 @@ function getHallucinationImages(cam) {
   if (PunchPath.includes(cam) && SnipePath.includes(cam)) options.push(cam + "PS.png");
   if (PunchPath.includes(cam) && MousePath.includes(cam)) options.push(cam + "PM.png");
   if (PunchPath.includes(cam) && MousePath.includes(cam) && SnipePath.includes(cam)) options.push(cam + "PMS.png");
+
+  if (cam === "CAM7") {
+    options = [
+      "CAM7stage4.png",
+      "CAM7stageangry.png",
+      "CAM7stage5.png"
+    ];
+  }
   return options;
 }
 
