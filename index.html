@@ -854,6 +854,7 @@ function killPlayer(enemy) {
 
   setTimeout(() => {
     showMenu();
+    resetAllGameStates();
   }, 3000);
 }
 
@@ -883,6 +884,28 @@ function killPlayer(enemy) {
     paranoiaTimer = null;
   }
   paranoid = false;
+
+BossStage = 1;
+BossProgress = 0;
+
+if (bossTimer) {
+  clearInterval(bossTimer);
+  bossTimer = null;
+}
+
+rocketActive = false;
+rocketCam = null;
+
+if (rocketTimer) {
+  clearTimeout(rocketTimer);
+  rocketTimer = null;
+}
+
+if (infectionInterval) {
+  clearInterval(infectionInterval);
+  infectionInterval = null;
+}
+
 
   // --- Reset doors ---
   doorAClosed = false;
