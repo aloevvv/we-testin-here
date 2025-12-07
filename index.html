@@ -650,14 +650,14 @@ function resetDoor(which) {
     doorAParanoiaTimer = setTimeout(() => {
       paranoid = true;
       console.log("Paranoia triggered by Door A");
-    }, 5000);
+    }, 7000);
   }
   if (which === "B") {
     clearParanoiaTimer("B");
     doorBParanoiaTimer = setTimeout(() => {
       paranoid = true;
       console.log("Paranoia triggered by Door B");
-    }, 5000);
+    }, 7000);
   }
 }
 
