@@ -538,6 +538,8 @@ function resetDoor(which) {
       Punch="CAM1";
       clearTimeout(punchDoorTimer);
       punchDoorTimer = null;
+      let bangA = new Audio("metalbang.mp3");
+      bangA.play();
     }
   }
   if (which==="B") {
@@ -545,11 +547,15 @@ function resetDoor(which) {
       Snipe="CAM1";
       clearTimeout(snipeDoorTimer);
       snipeDoorTimer = null;
+      let bangB = new Audio("metalbang.mp3");
+      bangB.play();
     }
     if (Mouse==="doorB") {
       Mouse="CAM1";
       clearTimeout(mouseDoorTimer);
       mouseDoorTimer = null;
+      let bangC = new Audio("scratching.mp3");
+      bangC.play();
     }
   }
   updateCameraView();
