@@ -965,6 +965,33 @@ if (infectionInterval) {
   console.log("Game states reset for next night");
 }
 
+let keySequence = [];
+const resetCombo = ["c", "d", "+"];
+
+document.addEventListener("keydown", e => {
+  let keyPressed = e.key.toLowerCase();
+
+  if (e.key === "=" && e.shiftKey) {
+    keyPressed = "+";
+  }
+
+  keySequence.push(keyPressed);
+
+  if (keySequence.length > 3) {
+    keySequence.shift();
+  }
+
+  if (keySequence.join("") === resetCombo.join("")) {
+ 
+    localStorage.clear();
+
+    resetAllGameStates();
+
+    showMenu();
+
+    console.log("CD+ combo entered: All progress deleted!");
+  }
+});
   
 
   </script>
