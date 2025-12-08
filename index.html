@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>FNAF Fan Game</title>
+  <title>Five Nights At Freddies</title>
   <style>
     body {
       margin: 0;
@@ -113,9 +113,9 @@
   width: 100%;
   height: 100%;
   background-color: black;
-  opacity: 0; /* starts transparent */
+  opacity: 0; 
   pointer-events: none;
-  z-index: 20; /* above everything */
+  z-index: 20;
   transition: opacity 0.5s;
 }
 
@@ -155,7 +155,6 @@
 
   <script>
 // ====== GAME STATE ======
-// ====== GAME STATE ======
 let CamOn = false;
 let currentCam = "CAM1";
 let paranoiaTimer = null;
@@ -186,52 +185,52 @@ let rocketCam = null;
 let rocketTimer = null;
 let bossMaddenedTimer = null;
 
-// AI levels (0–20)
+// AI levels
 let PunchAI = 0;
 let SnipeAI = 0;
-let MouseAI = 5;
-let BossAI = 5;
+let MouseAI = 0;
+let BossAI = 0;
 
 const nightAI = {
   1: {
-    12: { Punch: 0, Snipe: 0, Mouse: 5, Boss: 5 },
-    1:  { Punch: 6, Snipe: 5, Mouse: 4, Boss: 5 },
-    2:  { Punch: 7, Snipe: 6, Mouse: 4, Boss: 5 },
-    3:  { Punch: 8, Snipe: 7, Mouse: 5, Boss: 5 },
-    4:  { Punch: 9, Snipe: 8, Mouse: 5, Boss: 5 },
-    5:  { Punch: 10, Snipe: 9, Mouse: 6, Boss: 5 }
+    12: { Punch: 0, Snipe: 0, Mouse: 0, Boss: 0 },
+    1:  { Punch: 0, Snipe: 0, Mouse: 0, Boss: 0 },
+    2:  { Punch: 2, Snipe: 2, Mouse: 2, Boss: 0 },
+    3:  { Punch: 3, Snipe: 3, Mouse: 4, Boss: 0 },
+    4:  { Punch: 3, Snipe: 3, Mouse: 4, Boss: 0 },
+    5:  { Punch: 3, Snipe: 3, Mouse: 5, Boss: 0 }
   },
   2: {
-    12: { Punch: 8, Snipe: 7, Mouse: 5, Boss: 5 },
-    1:  { Punch: 9, Snipe: 8, Mouse: 6, Boss: 5 },
-    2:  { Punch: 10, Snipe: 9, Mouse: 6, Boss: 5 },
-    3:  { Punch: 12, Snipe: 10, Mouse: 7, Boss: 5 },
-    4:  { Punch: 13, Snipe: 11, Mouse: 8, Boss: 5 },
-    5:  { Punch: 14, Snipe: 12, Mouse: 9, Boss: 5 }
+    12: { Punch: 5, Snipe: 5, Mouse: 6, Boss: 6 },
+    1:  { Punch: 5, Snipe: 6, Mouse: 6, Boss: 6 },
+    2:  { Punch: 5, Snipe: 6, Mouse: 6, Boss: 6 },
+    3:  { Punch: 5, Snipe: 6, Mouse: 6, Boss: 6 },
+    4:  { Punch: 7, Snipe: 6, Mouse: 6, Boss: 6 },
+    5:  { Punch: 7, Snipe: 6, Mouse: 6, Boss: 6 }
   },
   3: {
-   12: { Punch: 8, Snipe: 7, Mouse: 5, Boss: 5 },
-    1:  { Punch: 9, Snipe: 8, Mouse: 6, Boss: 5 },
-    2:  { Punch: 10, Snipe: 9, Mouse: 6, Boss: 5 },
-    3:  { Punch: 12, Snipe: 10, Mouse: 7, Boss: 5 },
-    4:  { Punch: 13, Snipe: 11, Mouse: 8, Boss: 5 },
-    5:  { Punch: 14, Snipe: 12, Mouse: 9, Boss: 5 }
+   12: { Punch: 8, Snipe: 7, Mouse: 8, Boss: 10 },
+    1:  { Punch: 9, Snipe: 8, Mouse: 8, Boss: 10 },
+    2:  { Punch: 9, Snipe: 9, Mouse: 8, Boss: 10 },
+    3:  { Punch: 10, Snipe: 9, Mouse: 8, Boss: 10 },
+    4:  { Punch: 10, Snipe: 9, Mouse: 8, Boss: 10 },
+    5:  { Punch: 10, Snipe: 9, Mouse: 8, Boss: 10 }
   },
   4: {
-    12: { Punch: 8, Snipe: 7, Mouse: 5, Boss: 5 },
-    1:  { Punch: 9, Snipe: 8, Mouse: 6, Boss: 5 },
-    2:  { Punch: 10, Snipe: 9, Mouse: 6, Boss: 5 },
-    3:  { Punch: 12, Snipe: 10, Mouse: 7, Boss: 5 },
-    4:  { Punch: 13, Snipe: 11, Mouse: 8, Boss: 5 },
-    5:  { Punch: 14, Snipe: 12, Mouse: 9, Boss: 5 }
+    12: { Punch: 12, Snipe: 11, Mouse: 10, Boss: 13 },
+    1:  { Punch: 12, Snipe: 12, Mouse: 10, Boss: 13 },
+    2:  { Punch: 12, Snipe: 12, Mouse: 10, Boss: 13 },
+    3:  { Punch: 12, Snipe: 13, Mouse: 12, Boss: 13 },
+    4:  { Punch: 12, Snipe: 13, Mouse: 13, Boss: 13 },
+    5:  { Punch: 12, Snipe: 13, Mouse: 14, Boss: 13 }
   },
   5: {
-    12: { Punch: 8, Snipe: 7, Mouse: 5, Boss: 5 },
-    1:  { Punch: 9, Snipe: 8, Mouse: 6, Boss: 5 },
-    2:  { Punch: 10, Snipe: 9, Mouse: 6, Boss: 5 },
-    3:  { Punch: 12, Snipe: 10, Mouse: 7, Boss: 5 },
-    4:  { Punch: 13, Snipe: 11, Mouse: 8, Boss: 5 },
-    5:  { Punch: 14, Snipe: 12, Mouse: 9, Boss: 5 }
+    12: { Punch: 14, Snipe: 14, Mouse: 15, Boss: 16 },
+    1:  { Punch: 14, Snipe: 14, Mouse: 15, Boss: 16 },
+    2:  { Punch: 15, Snipe: 14, Mouse: 15, Boss: 16 },
+    3:  { Punch: 16, Snipe: 17, Mouse: 15, Boss: 16 },
+    4:  { Punch: 16, Snipe: 17, Mouse: 15, Boss: 16 },
+    5:  { Punch: 16, Snipe: 17, Mouse: 15, Boss: 16 }
   }
 };
 
@@ -387,14 +386,13 @@ function toggleCamera() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  // Attach camera button click
+  
   document.getElementById("cameraBtn").addEventListener("click", toggleCamera);
 
-  // Attach New Game button click
   document.getElementById("newGameBtn").addEventListener("click", startNewGame);
 
 document.addEventListener("keydown", e => {
-  // Spacebar toggles cams
+  
   if (e.code === "Space") {
     toggleCamera();
     return; 
@@ -426,14 +424,14 @@ document.addEventListener("keydown", e => {
   paranoiaTimer = setTimeout(() => {
     paranoid = true;
     console.log("Paranoia triggered!");
-  }, 15000); // 15 seconds, adjust as needed
+  }, 15000); 
 }
 
 
 
   document.addEventListener("keydown", e => {
   if (e.key === "a" || e.key === "A") {
-    if (doorADisabled) return; // ignore if disabled
+    if (doorADisabled) return;
 
     doorAClosed = !doorAClosed;
     document.getElementById("doorA").src = doorAClosed ? "doorAon.png" : "doorAoff.png";
@@ -501,7 +499,7 @@ if (e.key === "e" || e.key === "E") {
 });
 
 
-// ====== CAMERA IMAGE LOGIC ======
+// ====== CAMERA IMAGE ======
 function getActualImage(cam) {
   let enemiesHere = [];
   if (Punch === cam) enemiesHere.push("P");
@@ -521,7 +519,7 @@ function getActualImage(cam) {
   if (BossStage === 4) return "CAM7stage4.png";
   if (BossStage === "Maddened") return "CAM7stageangry.png";
   if (BossStage === 5) return "CAM7stage5.png";
-  return "CAM7stage1.png"; // fallback
+  return "CAM7stage1.png";
 }
 
 
@@ -554,7 +552,6 @@ function updateCameraView() {
     camView.src = getActualImage(currentCam);
   }
 
-  // Update CAM label
   document.getElementById("camLabel").textContent = currentCam;
   updateRocketView();
 }
@@ -747,14 +744,14 @@ document.getElementById("rocket").addEventListener("click", () => {
 
 
 function updateDoorSprites() {
-  // Door A (Punch)
+  
   if (Punch === "doorA" && !doorAClosed) {
     document.getElementById("doorA").src = "doorApunch.png";
   } else {
     document.getElementById("doorA").src = doorAClosed ? "doorAon.png" : "doorAoff.png";
   }
 
-  // Door B (Snipe)
+  
   if (Snipe === "doorB" && !doorBClosed) {
     document.getElementById("doorB").src = "doorBsnipe.png";
   } else {
@@ -773,7 +770,7 @@ function startInfectionMeter() {
 
 function darkenScreen() {
   let overlay = document.getElementById("darkOverlay");
-  overlay.style.opacity = infected/60; // 0 to 1
+  overlay.style.opacity = infected/60; 
 }
 
 function checkDoorStates() {
@@ -849,7 +846,7 @@ function clearParanoiaTimer(which) {
 setInterval(() => {
   if (doorAClosed && doorAClosedAt && !doorADisabled) {
     let elapsed = (Date.now() - doorAClosedAt) / 1000;
-    if (doorATotalClosed + elapsed >= 120) { // or 5 for testing
+    if (doorATotalClosed + elapsed >= 120) {
       disableDoor("A");
     }
   }
@@ -917,7 +914,7 @@ function killPlayer(enemy) {
 }
 
     function resetAllGameStates() {
-  // --- Clear enemy timers ---
+  
   if (punchDoorTimer) {
     clearTimeout(punchDoorTimer);
     punchDoorTimer = null;
@@ -931,12 +928,12 @@ function killPlayer(enemy) {
     mouseDoorTimer = null;
   }
 
-  // --- Reset enemy positions ---
+  
   Punch = "CAM1";
   Snipe = "CAM1";
   Mouse = "CAM1";
 
-  // --- Reset paranoia ---
+
   if (paranoiaTimer) {
     clearTimeout(paranoiaTimer);
     paranoiaTimer = null;
@@ -965,7 +962,7 @@ if (infectionInterval) {
 }
 
 
-  // --- Reset doors ---
+
   doorAClosed = false;
   doorBClosed = false;
   doorADisabled = false;
@@ -977,11 +974,11 @@ if (infectionInterval) {
   document.getElementById("doorA").src = "doorAoff.png";
   document.getElementById("doorB").src = "doorBoff.png";
 
-  // --- Reset overlays ---
+  
   document.getElementById("staticOverlay").style.display = "none";
   document.getElementById("darkOverlay").style.opacity = 0;
 
-  // --- Reset HUD ---
+  
   document.getElementById("camLabel").textContent = "CAM1";
   document.getElementById("hourLabel").textContent = "12AM";
 
@@ -1012,7 +1009,7 @@ document.addEventListener("keydown", e => {
 
     showMenu();
 
-    console.log("CD+ combo entered: All progress deleted!");
+    console.log("CD+ combo entered: bozo");
   }
 });
   showMenu();
