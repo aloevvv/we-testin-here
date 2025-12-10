@@ -408,7 +408,10 @@ document.getElementById("startCustomNight").addEventListener("click", () => {
     }
 
     localStorage.setItem("currentNight", currentNight);
+    startAI();
+    startInfectionMeter();
     startNight();
+    bossTimer = setInterval(updateBoss, 5000);
   }, 3000); 
 }
 
