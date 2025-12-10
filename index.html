@@ -339,13 +339,13 @@ document.getElementById("startCustomNight").addEventListener("click", () => {
   MouseAI = parseInt(document.getElementById("customMouse").value);
   BossAI = parseInt(document.getElementById("customBoss").value);
 
+  resetAllGameStates();
   Night6 = true;
   setAIForHour(currentNight, currentHour);
 
   
   document.getElementById("customNightMenu").style.display = "none";
   document.getElementById("game").style.display = "block";
-  resetAllGameStates();
   startNight();
 });
 
