@@ -127,6 +127,7 @@
     <h1>Five Nights At Starr Park</h1>
     <div id="newGameBtn" class="menu-option">New Game</div>
     <div id="continueBtn" class="menu-option disabled">Continue</div>
+    <div id="customNightBtn" class="menu-option" style="display:none;">Custom Night</div>
   </div>
 
   <!-- Game Scene -->
@@ -150,7 +151,15 @@
   font-size:28px; color:white; font-family:'Courier New', monospace;
   z-index:15;">12AM</div>
   </div>
-  
+
+  <div id="customNightMenu" style="display:none; margin-top:20px;">
+  <label>Punch AI: <input type="number" id="customPunch" min="0" max="20" value="5"></label><br>
+  <label>Snipe AI: <input type="number" id="customSnipe" min="0" max="20" value="5"></label><br>
+  <label>Mouse AI: <input type="number" id="customMouse" min="0" max="20" value="5"></label><br>
+  <label>Boss AI: <input type="number" id="customBoss" min="0" max="20" value="5"></label><br>
+  <button id="startCustomNight">Start Custom Night</button>
+</div>
+
 
 
   <!-- Ambience Audio -->
@@ -163,6 +172,7 @@ let CamOn = false;
 let currentCam = "CAM1";
 let paranoiaTimer = null;
 let paranoid = false;
+let Night6 = false;
 
 let Night1Won = localStorage.getItem("Night1Won") === "true";
 let Night2Won = localStorage.getItem("Night2Won") === "true";
@@ -302,6 +312,12 @@ function startNewGame() {
 }
 
 function setAIForHour(night, hour) {
+  if (customNightActive) {
+    // Keep AI fixed all night
+    console.log(`Custom Night: Punch=${PunchAI}, Snipe=${SnipeAI}, Mouse=${MouseAI}, Boss=${BossAI}`);
+    return;
+  }
+
   if (nightAI[night] && nightAI[night][hour]) {
     PunchAI = nightAI[night][hour].Punch;
     SnipeAI = nightAI[night][hour].Snipe;
@@ -310,6 +326,28 @@ function setAIForHour(night, hour) {
     console.log(`Night ${night}, ${hour}AM: Punch=${PunchAI}, Snipe=${SnipeAI}, Mouse=${MouseAI}`);
   }
 }
+
+    
+    document.getElementById("customNightBtn").addEventListener("click", () => {
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("customNightMenu").style.display = "block";
+});
+
+document.getElementById("startCustomNight").addEventListener("click", () => {
+  PunchAI = parseInt(document.getElementById("customPunch").value);
+  SnipeAI = parseInt(document.getElementById("customSnipe").value);
+  MouseAI = parseInt(document.getElementById("customMouse").value);
+  BossAI = parseInt(document.getElementById("customBoss").value);
+  
+  Night6 = true;
+
+  // Reset game state and start
+  document.getElementById("customNightMenu").style.display = "none";
+  document.getElementById("game").style.display = "block";
+  resetAllGameStates();
+  startNight();
+});
+
 
 
     function startNight() {
@@ -908,8 +946,8 @@ function showMenu() {
   document.getElementById("menu").style.display = "block";
 
   const continueBtn = document.getElementById("continueBtn");
+  const customNightBtn = document.getElementById("customNightBtn");
 
-  // Check if player has beaten at least one night
   if (Night1Won || Night2Won || Night3Won || Night4Won || Night5Won) {
     continueBtn.classList.remove("disabled");
     continueBtn.textContent = "Continue (Night " + currentNight + ")";
@@ -917,7 +955,14 @@ function showMenu() {
     continueBtn.classList.add("disabled");
     continueBtn.textContent = "Continue";
   }
+
+  if (Night5Won) {
+    customNightBtn.style.display = "block"; 
+  } else {
+    customNightBtn.style.display = "none";
+  }
 }
+
 
 document.getElementById("continueBtn").addEventListener("click", () => {
   if (!document.getElementById("continueBtn").classList.contains("disabled")) {
