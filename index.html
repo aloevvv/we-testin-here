@@ -357,6 +357,7 @@ document.getElementById("startCustomNight").addEventListener("click", () => {
     function startNight() {
   currentHour = 12;
   updateHourLabel();
+    powerDoor = 120;
   
   nightTimer = setInterval(() => {
     advanceHour();
