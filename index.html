@@ -312,8 +312,7 @@ function startNewGame() {
 }
 
 function setAIForHour(night, hour) {
-  if (customNightActive) {
-    // Keep AI fixed all night
+  if (Night6) {
     console.log(`Custom Night: Punch=${PunchAI}, Snipe=${SnipeAI}, Mouse=${MouseAI}, Boss=${BossAI}`);
     return;
   }
