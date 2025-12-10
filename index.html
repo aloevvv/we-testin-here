@@ -334,12 +334,12 @@ function setAIForHour(night, hour) {
 });
 
 document.getElementById("startCustomNight").addEventListener("click", () => {
+  resetAllGameStates();
   PunchAI = parseInt(document.getElementById("customPunch").value);
   SnipeAI = parseInt(document.getElementById("customSnipe").value);
   MouseAI = parseInt(document.getElementById("customMouse").value);
   BossAI = parseInt(document.getElementById("customBoss").value);
 
-  resetAllGameStates();
   Night6 = true;
   setAIForHour(currentNight, currentHour);
 
