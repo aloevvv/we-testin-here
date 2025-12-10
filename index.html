@@ -339,9 +339,8 @@ document.getElementById("startCustomNight").addEventListener("click", () => {
   MouseAI = parseInt(document.getElementById("customMouse").value);
   BossAI = parseInt(document.getElementById("customBoss").value);
 
-  setAIForHour(currentNight, currentHour);
-  
   Night6 = true;
+  setAIForHour(currentNight, currentHour);
 
   
   document.getElementById("customNightMenu").style.display = "none";
